@@ -38,6 +38,9 @@ Easy ANSI code coloring for strings in libraries.
     # and use it on the instance
     any_instance.dye "any string", :any_style
 
+    # alternative no-color string
+    Dye.dye '    reversed    ', '=== reversed ===', :reversed
+
     # back to plain text
     plain_text = Dye.strip_ansi(ansi_string)
 
@@ -114,7 +117,7 @@ so Dye will output non strict ansi by default. If you want to have strict ansi y
 
     Dye.strict_ansi = true
 
-or you can set the DYE_ANSI_STRICT environment variable for a system wide setting.
+or you can set the DYE_STRICT_ANSI environment variable for a system wide setting.
 
 === Color
 

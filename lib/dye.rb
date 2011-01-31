@@ -1,19 +1,8 @@
-class Object
+class Module
 
   def define_dye_method(custom_styles={})
-    define_method(:dye) do |string, *names|
-      return string unless Dye.color?
-      codes = names.map do |name|
-                case
-                when custom_styles.has_key?(name)
-                  Dye.sgr_names_to_codes *custom_styles[name]
-                when Dye::BASIC_SGR.has_key?(name)
-                  Dye::BASIC_SGR[name]
-                else
-                  raise Dye::UnknownSgrCode.new(name)
-                end
-              end.flatten
-      Dye.apply_codes string, *codes
+    define_method(:dye) do |*args|
+      Dye.send :apply_styles, custom_styles, *args
     end
   end
 
@@ -66,26 +55,33 @@ module Dye
   @strict_ansi = !!ENV['DYE_STRICT_ANSI']
   attr_accessor :strict_ansi
 
-  def dye(string, *sgr_names)
-    return string unless color?
-    apply_codes string, sgr_names_to_codes(*sgr_names)
+  def dye(*args)
+    apply_styles( {}, *args )
   end
 
   def strip_ansi(string)
     string.gsub(/\e\[[\d;]+m/, '')
   end
 
-  def sgr_names_to_codes(*names)
-    names.map do |n|
-      next if n.nil?
-      code = n.is_a?(Symbol) ? BASIC_SGR[n] : n
-      raise UnknownSgrCode.new(n) unless code.is_a?(Integer) && (0..109).include?(code)
-      code
-    end
-  end
+  private
 
-  def apply_codes(string, *codes)
-    codes.compact!
+  def apply_styles(custom_styles, *args)
+    if args[1].is_a?(String)
+      string, no_color_string, *names = args
+    else
+      string, *names = args
+    end
+    return no_color_string||string unless color?
+    codes = names.map do |name|
+              sgr = custom_styles.has_key?(name) ? custom_styles[name] : name
+              sgr = [sgr] unless sgr.is_a?(Array)
+              sgr.map do |n|
+                next if n.nil?
+                code = n.is_a?(Symbol) ? BASIC_SGR[n] : n
+                raise UnknownSgrCode.new(n) unless code.is_a?(Integer) && (0..109).include?(code)
+                code
+              end
+            end.flatten.compact
     return string if codes.empty?
     if strict_ansi
       string.match(/^\e\[[\d;]+m.*\e\[0m$/m) ?
@@ -97,4 +93,5 @@ module Dye
         sprintf("\e[0m%s%s\e[0m", codes.map{|c| "\e[#{c}m" }.join, string)
     end
   end
+
 end
