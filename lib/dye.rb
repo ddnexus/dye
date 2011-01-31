@@ -1,20 +1,20 @@
 class Object
 
   def define_dye_method(custom_styles={})
-      define_method(:dye) do |string, *names|
-        return string unless Dye.color?
-        codes = names.map do |name|
-                  case
-                  when custom_styles.has_key?(name)
-                    Dye.sgr_names_to_codes *custom_styles[name]
-                  when Dye::BASIC_SGR.has_key?(name)
-                    Dye::BASIC_SGR[name]
-                  else
-                    raise Dye::UnknownSgrCode.new(name)
-                  end
-                end.flatten
-        Dye.apply_codes string, *codes
-      end
+    define_method(:dye) do |string, *names|
+      return string unless Dye.color?
+      codes = names.map do |name|
+                case
+                when custom_styles.has_key?(name)
+                  Dye.sgr_names_to_codes *custom_styles[name]
+                when Dye::BASIC_SGR.has_key?(name)
+                  Dye::BASIC_SGR[name]
+                else
+                  raise Dye::UnknownSgrCode.new(name)
+                end
+              end.flatten
+      Dye.apply_codes string, *codes
+    end
   end
 
 end
