@@ -1,0 +1,18 @@
+module MyModule
+  extend self
+  define_dye_method
+end
+
+desc 'module call'
+MyModule.dye 'My Module', :green, :bold
+puts _
+_eql?( "\e[0;32;1mMy Module\e[0m" )
+
+class MyInstance; end
+
+desc 'instance call'
+obj = MyInstance.new
+obj.class.define_dye_method
+obj.dye 'My Instance', :reversed, :yellow
+puts _
+_eql?( "\e[0;7;33mMy Instance\e[0m" )

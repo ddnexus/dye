@@ -1,0 +1,27 @@
+custom_styles = { :dummy => nil,
+                  :errorize => [ :red, :bold, :underline ],
+                  :okeyze => [ :green, :bold ] }
+self.class.define_dye_method custom_styles
+
+desc "errorize"
+dye 'errorize', :errorize
+puts _
+_eql? "\e[0;31;1;4merrorize\e[0m"
+
+desc "okeyze"
+dye 'okeyize', :okeyze
+puts _
+_eql? "\e[0;32;1mokeyize\e[0m"
+
+desc "allows dummy styles"
+dye 'dummy', :dummy
+puts _
+_eql?( "dummy" )
+
+custom_styles[:added] = :blue
+
+desc "add to  custom styles"
+dye 'added', :added
+puts _
+_eql?( "\e[0;34madded\e[0m" )
+

@@ -1,0 +1,16 @@
+custom_styles = { :mixed_sgr => [ :bold, 7 ] }
+
+self.class.define_dye_method custom_styles
+
+desc "Mixed SGR parameters"
+dye "Mixed SGR parameters", :mixed_sgr
+puts _
+_eql? "\e[0;1;7mMixed SGR parameters\e[0m"
+
+desc "Basic and custom definition"
+custom_styles.merge!({:goo => [7], :guu => 4})
+dye "Basic and custom definition", :green, :goo, :guu
+puts _
+_eql? "\e[0;32;7;4mBasic and custom definition\e[0m"
+
+
