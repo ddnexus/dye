@@ -1,0 +1,18 @@
+desc 'one code strict'
+Dye.sgr(:cyan)
+_eql?( "\e[36m" )
+
+desc 'two codes strict'
+Dye.sgr(:cyan, :bold)
+_eql?( "\e[36;1m" )
+
+Dye.strict_ansi = false
+
+desc 'one code no strict'
+Dye.sgr(:cyan)
+_eql?( "\e[36m" )
+
+desc 'two codes no strict'
+Dye.sgr(:cyan, :bold)
+_eql?( "\e[36m\e[1m" )
+

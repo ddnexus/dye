@@ -54,6 +54,7 @@ module Dye
 
   @strict_ansi = !!ENV['DYE_STRICT_ANSI']
   attr_accessor :strict_ansi
+  alias_method :strict_ansi?, :strict_ansi
 
   def dye(*args)
     apply_styles( {}, *args )
@@ -61,6 +62,12 @@ module Dye
 
   def strip_ansi(string)
     string.gsub(/\e\[[\d;]+m/, '')
+  end
+
+  def sgr(*names)
+    return if names.empty?
+    codes = names.map{|n| sgr_to_code(n) }
+    strict_ansi? ? "\e[#{codes.join(';')}m" : codes.map{|c| "\e[#{c}m" }.join
   end
 
   private
@@ -77,13 +84,11 @@ module Dye
               sgr = [sgr] unless sgr.is_a?(Array)
               sgr.map do |n|
                 next if n.nil?
-                code = n.is_a?(Symbol) ? BASIC_SGR[n] : n
-                raise UnknownSgrCode.new(n) unless code.is_a?(Integer) && (0..109).include?(code)
-                code
+                sgr_to_code(n)
               end
             end.flatten.compact
     return string if codes.empty?
-    if strict_ansi
+    if strict_ansi?
       string.match(/^\e\[[\d;]+m.*\e\[0m$/m) ?
         string.sub(/^(\e\[[\d;]+)/, '\1;' + codes.join(';')) :
         sprintf("\e[0;%sm%s\e[0m", codes.join(';'), string)
@@ -92,6 +97,12 @@ module Dye
         string.sub(/^((?:\e\[\d+m)+)/, '\1' + codes.map{|c| "\e[#{c}m" }.join) :
         sprintf("\e[0m%s%s\e[0m", codes.map{|c| "\e[#{c}m" }.join, string)
     end
+  end
+
+  def sgr_to_code(name)
+    code = name.is_a?(Symbol) ? BASIC_SGR[name] : name
+    raise UnknownSgrCode.new(n) unless code.is_a?(Integer) && (0..109).include?(code)
+    code
   end
 
 end

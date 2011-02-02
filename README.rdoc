@@ -44,6 +44,13 @@ Easy ANSI code coloring for strings in libraries.
     # back to plain text
     plain_text = Dye.strip_ansi(ansi_string)
 
+    # raw SGR escape sequences
+    Dye.sgr(:cyan) #=> "\e[36m"
+    # strict_ansi?
+    Dye.sgr(:cyan, :bold) #=> "\e[36;1m"
+    # !strict_ansi?
+    Dye.sgr(:cyan, :bold) #=> "\e[36m\e[1m"
+
 === Feedback!!!
 
 This is feedback-driven software. Just send me a line about you and/or what you think about it:
@@ -54,7 +61,7 @@ My email address is ddnexus at gmail.com ... waiting for your. Ciao.
 == Features
 
 * Does not define methods in String
-* Allows you to define basic styles by just requiring the lib
+* Allows you to set basic styles by just requiring the lib
 * Allows you to easily add your own custom styles
 * Allows extended (Select Graphic Rendition) parameters
 
