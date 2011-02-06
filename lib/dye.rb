@@ -101,7 +101,7 @@ module Dye
 
   def sgr_to_code(name)
     code = name.is_a?(Symbol) ? BASIC_SGR[name] : name
-    raise UnknownSgrCode.new(n) unless code.is_a?(Integer) && (0..109).include?(code)
+    raise UnknownSgrCode.new(code) unless code.is_a?(Integer) && (0..109).include?(code)
     code
   end
 
