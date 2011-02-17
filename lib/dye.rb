@@ -70,6 +70,10 @@ module Dye
     strict_ansi? ? "\e[#{codes.join(';')}m" : codes.map{|c| "\e[#{c}m" }.join
   end
 
+  def print_reset_colors
+    print sgr(:clear) if color?
+  end
+
   private
 
   def apply_styles(custom_styles, *args)
