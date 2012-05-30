@@ -1,4 +1,4 @@
-= colorer
+= dye
 
 Easy ANSI code coloring for strings in libraries.
 

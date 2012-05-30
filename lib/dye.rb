@@ -61,6 +61,7 @@ module Dye
   end
 
   def strip_ansi(string)
+    return '' if string.nil?
     string.gsub(/\e\[[\d;]+m/, '')
   end
 
