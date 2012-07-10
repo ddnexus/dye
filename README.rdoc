@@ -51,13 +51,6 @@ Easy ANSI code coloring for strings in libraries.
     # !strict_ansi?
     Dye.sgr(:cyan, :bold) #=> "\e[36m\e[1m"
 
-=== Feedback!!!
-
-This is feedback-driven software. Just send me a line about you and/or what you think about it:
-that will be a wonderful contribution that will help me to keep improving (and documenting) this software.
-
-My email address is ddnexus at gmail.com ... waiting for your. Ciao.
-
 == Features
 
 * Does not define methods in String
