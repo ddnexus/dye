@@ -6,7 +6,7 @@ Easy ANSI code coloring for strings in libraries.
 
     require 'dye'
 
-    # you can use directly use Dye.dye for basic styles
+    # you can directly use Dye.dye for basic styles
     Dye.dye "a red bold underlined text on white background", :red, :bold, :underline, :onwhite
 
     # you can define custom styles in your classes or modules
@@ -94,8 +94,8 @@ The Dye gem instead does not have the same problem, although its syntax is not s
 
 === Custom Styles
 
-You can define your own custom styles by aggregating any basic styles names,
-besides can also add native SGR (Select Graphic Rendition) parameters (0..109) to any style::
+You can define your own custom styles by aggregating any basic styles names, besides can also add native SGR
+(Select Graphic Rendition) parameters (0..109) to any style:
 
     custom_styles = { :errorize => [ :red, :bold, :underline ],
                       :okize => [ :green, :bold ],
@@ -132,4 +132,4 @@ by explicitly setting it:
 
 == Copyright
 
-Copyright (c) 2010-2011 Domizio Demichelis. See LICENSE for details.
+Copyright (c) 2010-2012 Domizio Demichelis. See LICENSE for details.
